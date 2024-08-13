@@ -1,0 +1,79 @@
+{
+    "image":"mcr.microsoft.com/devcontainers/universal:2",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+          "installZsh": "true",
+          "configureZshAsDefaultShell": "true",
+          "installOhMyZsh": "true",
+          "installOhMyZshConfig": "true"
+        },
+        "ghcr.io/devcontainers-contrib/features/pre-commit:2": {}
+      },
+      // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "files.eol": "\n",
+        "editor.tokenColorCustomizations": {
+          "comments": "#d39e9e"
+        },
+        "todo-tree.highlights.enabled": true,
+        "todo-tree.highlights.customHighlight": {
+          "TODO": {
+            "icon": "check",
+            "type": "line",
+            "foreground": "#00FF00"
+          },
+          "FIXME": {
+            "foreground": "#FFFF00",
+            "iconColour": "#FFFF00"
+          },
+          "TEST": {
+            "icon": "alert",
+            "foreground": "#FF0000",
+            "iconColour": "#FF0000"
+          }
+        },
+        "todo-tree.general.tags": ["TODO", "FIXME", "TEST"],
+        "files.autoSave": "afterDelay",
+        "javascript.format.enable": false,
+        "typescript.format.enable": false,
+        "typescript.suggest.paths": false,
+        "javascript.suggest.paths": false,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[sql]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnType": true
+        },
+        "[prisma]": {
+          "editor.defaultFormatter": "Prisma.prisma"
+        }
+      },
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "EditorConfig.EditorConfig",
+        "GitHub.copilot",
+        "Prisma.prisma",
+        "oouo-diogo-perdigao.docthis",
+        "esbenp.prettier-vscode",
+        "rangav.vscode-thunder-client",
+        "Gruntfuggly.todo-tree",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [3000, 5432]
+}
