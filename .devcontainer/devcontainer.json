@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
 {
-  "name": "Node.js",
+  "name": "Node.js - v20",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
@@ -9,6 +9,7 @@
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": "true",
       "configureZshAsDefaultShell": "true",
@@ -28,24 +29,6 @@
         "editor.tokenColorCustomizations": {
           "comments": "#d39e9e"
         },
-        "todo-tree.highlights.enabled": true,
-        "todo-tree.highlights.customHighlight": {
-          "TODO": {
-            "icon": "check",
-            "type": "line",
-            "foreground": "#00FF00"
-          },
-          "FIXME": {
-            "foreground": "#FFFF00",
-            "iconColour": "#FFFF00"
-          },
-          "TEST": {
-            "icon": "alert",
-            "foreground": "#FF0000",
-            "iconColour": "#FF0000"
-          }
-        },
-        "todo-tree.general.tags": ["TODO", "FIXME", "TEST"],
         "files.autoSave": "afterDelay",
         "javascript.format.enable": false,
         "typescript.format.enable": false,
@@ -77,31 +60,40 @@
         "oouo-diogo-perdigao.docthis",
         "esbenp.prettier-vscode",
         "rangav.vscode-thunder-client",
-        "Gruntfuggly.todo-tree",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker"
       ]
     }
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [3000, 5432],
+  "forwardPorts": [3000, 5432, 6379],
 
   // Use 'portsAttributes' to set default properties for specific forwarded ports.
   // More info: https://containers.dev/implementors/json_reference/#port-attributes
   "portsAttributes": {
     "3000": {
-      "label": "Hello Remote World",
+      "label": "Application",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "postgres",
+      "onAutoForward": "notify"
+    },
+    "6379": {
+      "label": "redis",
       "onAutoForward": "notify"
     }
-  }
+  },
 
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "pnpm install && pnpm ts-patch install && pnpm build"
   // "postStartCommand": "pnpm install && pnpm ts-patch install && pnpm build"
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"
-  // "hostRequirements": {
-  //   "cpus": 2,
-  //   "memory": "4gb"
-  // }
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "4gb",
+    "storage": "20gb"
+  }
 }
