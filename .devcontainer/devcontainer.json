@@ -6,7 +6,6 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
@@ -18,7 +17,6 @@
     },
     "ghcr.io/devcontainers-contrib/features/pre-commit:2": {}
   },
-
   // Configure tool-specific properties.
   "customizations": {
     // Configure properties specific to VS Code.
@@ -53,6 +51,7 @@
         }
       },
       "extensions": [
+        "esbenp.prettier-vscode",
         "streetsidesoftware.code-spell-checker",
         "EditorConfig.EditorConfig",
         "GitHub.copilot",
@@ -61,12 +60,12 @@
         "esbenp.prettier-vscode",
         "rangav.vscode-thunder-client",
         "eamodio.gitlens",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "nguyenngoclong.terminal-keeper"
       ]
     }
   },
-
-  
+  "forwardPorts": [3000, 5432],// Uncomment the next line to run commands after the container is created.
   // Use 'portsAttributes' to set default properties for specific forwarded ports.
   // More info: https://containers.dev/implementors/json_reference/#port-attributes
   "portsAttributes": {
@@ -86,7 +85,6 @@
       "autoForward": true
     }
   },
-
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "pnpm install && pnpm ts-patch install && pnpm build"
   // "postStartCommand": "pnpm install && pnpm ts-patch install && pnpm build"
