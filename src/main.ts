@@ -7,4 +7,4 @@ async function bootstrap() {
   await WebSocketAdaptor.upgrade(app);
   await app.listen(3000);
 }
-bootstrap();
+bootstrap().catch(console.error);

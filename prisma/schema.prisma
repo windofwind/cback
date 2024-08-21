@@ -14,12 +14,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator markdown {
+  provider = "prisma-markdown"
+  output   = "../document/ERD.md"
+  title    = "cback ERD"
+}
+
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
+  /// User seq
+  id       String   @id @default(cuid())
+  /// User email (user id)
+  email     String   @unique @db.VarChar(255)
+  /// User password
   password  String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @db.Timestamp
-  updatedAt DateTime @updatedAt @db.Timestamp
-  deletedAt DateTime? @db.Timestamp
+  /// User nickname
+  nickname  String?  @db.VarChar(255)
+  /// User created
+  createdAt DateTime @default(now()) @db.Timestamp @map("created_at")
+  /// User updated
+  updatedAt DateTime @updatedAt @db.Timestamp @map("updated_at")
+  /// User deleted
+  deletedAt DateTime? @db.Timestamp @map("deleted_at")
+
+  @@map("user")
+}
+
+model Company {
+  /// Company seq
+  id String @id @default(cuid()) 
+  /// 사업자 번호
+  seq String @unique @db.VarChar(255)
+  /// 회사명
+  name String @db.VarChar(255)
+
+  /// company created
+  createdAt DateTime @default(now()) @db.Timestamp @map("created_at")
+  /// company updated
+  updatedAt DateTime @updatedAt @db.Timestamp @map("updated_at")
+  /// company deleted
+  deletedAt DateTime? @db.Timestamp @map("deleted_at") 
+
+  @@map("company")
 }

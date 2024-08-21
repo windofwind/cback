@@ -5,6 +5,32 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "builder": "tsc",
-    "assets": [{ "include": "./*.env", "outDir": "./dist" }]
+    "assets": [
+      {
+        "include": "./*.env.*",
+        "outDir": "./dist"
+      }
+    ],
+    "webpack": true
+  },
+  "projects": {
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
+      }
+    },
+    "schema": {
+      "type": "library",
+      "root": "libs/schema",
+      "entryFile": "index",
+      "sourceRoot": "libs/schema/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/schema/tsconfig.lib.json"
+      }
+    }
   }
 }
