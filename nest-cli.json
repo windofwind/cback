@@ -5,13 +5,21 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "builder": "tsc",
+    "typeCheck": true,
     "assets": [
       {
         "include": "./*.env.*",
         "outDir": "./dist"
       }
     ],
+    "watchAssets": true,
     "webpack": true
+  },
+  "generateOptions": {
+    "spec": {
+      "controller": false,
+      "service": true
+    }
   },
   "projects": {
     "common": {
@@ -30,6 +38,15 @@
       "sourceRoot": "libs/schema/src",
       "compilerOptions": {
         "tsConfigPath": "libs/schema/tsconfig.lib.json"
+      }
+    },
+    "storage": {
+      "type": "library",
+      "root": "libs/storage",
+      "entryFile": "index",
+      "sourceRoot": "libs/storage/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/storage/tsconfig.lib.json"
       }
     }
   }

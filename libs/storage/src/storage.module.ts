@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ScheduleModule } from '@nestjs/schedule';
-import { InterbankRateService } from './schedule/interbank-rate.service';
 import { ConfigModule } from '@nestjs/config';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [
@@ -10,9 +9,8 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: ['.env', '.env.api'],
       ignoreEnvFile: process.env.NODE_ENV === 'production',
     }),
-    ScheduleModule.forRoot(),
   ],
-  providers: [InterbankRateService],
-  exports: [InterbankRateService],
+  providers: [PrismaService],
+  exports: [PrismaService],
 })
-export class CommonModule {}
+export class StorageModule {}

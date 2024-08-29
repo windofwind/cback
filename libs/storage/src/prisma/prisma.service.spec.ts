@@ -1,13 +1,10 @@
-import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { InterbankRateService } from './interbank-rate.service';
+import { PrismaService } from './prisma.service';
+import { ConfigModule } from '@nestjs/config';
 
-import { InterbankRateType } from '@schema';
-import typia from 'typia';
-
-describe('InterbankRateService', () => {
+describe('PrismaService', () => {
   let module: TestingModule;
-  let service: InterbankRateService;
+  let service: PrismaService;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -19,10 +16,10 @@ describe('InterbankRateService', () => {
           ignoreEnvFile: process.env.NODE_ENV === 'production',
         }),
       ],
-      providers: [InterbankRateService],
+      providers: [PrismaService],
     }).compile();
 
-    service = module.get<InterbankRateService>(InterbankRateService);
+    service = module.get<PrismaService>(PrismaService);
   });
 
   afterAll(async () => {
@@ -33,11 +30,9 @@ describe('InterbankRateService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return result', async () => {
-    const result = await service.cron();
+  it('select 1', async () => {
+    const result = await service.$queryRaw`SELECT 1;`;
 
     expect(result).toBeDefined();
-
-    typia.assertEquals<InterbankRateType>(result);
   });
 });
