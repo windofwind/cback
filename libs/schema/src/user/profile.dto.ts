@@ -3,7 +3,11 @@ export namespace dtoProfile {
 
   export interface Data extends Profile {}
 
-  export interface Profile {}
+  export interface Profile {
+    nick: string;
+  }
 
-  export interface Response {}
+  export interface Response {
+    data: Data;
+  }
 }

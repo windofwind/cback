@@ -1,17 +1,28 @@
 import { PrismaClient } from '@prisma/client';
-import { userData } from './seed.const';
+import { userData, userProfiles } from './seed.const';
 
 const db = new PrismaClient();
 
 const main = async () => {
-  await db.user.upsert({
-    where: { email: userData.seq },
-    update: {
-      email: userData.email,
-      password: userData.password,
-      nickname: userData.nickname,
-    },
-    create: userData,
+  userData.forEach(async (user) => {
+    await db.user.upsert({
+      where: { email: user.seq },
+      update: {
+        email: user.email,
+        password: user.password,
+      },
+      create: user,
+    });
+  });
+
+  userProfiles.forEach(async (profile) => {
+    await db.userProfile.upsert({
+      where: { seq: profile.seq },
+      update: {
+        nick: profile.nick,
+      },
+      create: profile,
+    });
   });
 };
 

@@ -27,8 +27,6 @@ model User {
   email     String    @unique @db.VarChar(255)
   /// User password
   password  String    @db.VarChar(255)
-  /// User nickname
-  nickname  String?   @db.VarChar(255)
   /// User created
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
   /// User updated
@@ -41,12 +39,11 @@ model User {
 
 model Company {
   /// Company seq
-  id   String @id @default(cuid())
+  id        String    @id @default(cuid())
   /// 사업자 번호
-  seq  String @unique @db.VarChar(255)
+  seq       String    @unique @db.VarChar(255)
   /// 회사명
-  name String @db.VarChar(255)
-
+  name      String    @db.VarChar(255)
   /// company created
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
   /// company updated
@@ -55,4 +52,19 @@ model Company {
   deletedAt DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("company")
+}
+
+model UserProfile {
+  /// seq
+  seq       String    @id
+  /// nick
+  nick      String    @db.VarChar(64)
+  /// updated at
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
+  /// updated at
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp
+  /// deleted at
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  @@map("user_profile")
 }

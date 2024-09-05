@@ -10,7 +10,6 @@ erDiagram
   String seq PK
   String email UK
   String password
-  String nickname "nullable"
   DateTime created_at
   DateTime updated_at
   DateTime deleted_at "nullable"
@@ -23,6 +22,13 @@ erDiagram
   DateTime updated_at
   DateTime deleted_at "nullable"
 }
+"user_profile" {
+  String seq PK
+  String nick
+  DateTime created_at
+  DateTime updated_at
+  DateTime deleted_at "nullable"
+}
 ```
 
 ### `user`
@@ -31,7 +37,6 @@ erDiagram
   - `seq`: User seq
   - `email`: User email (user id)
   - `password`: User password
-  - `nickname`: User nickname
   - `created_at`: User created
   - `updated_at`: User updated
   - `deleted_at`: User deleted
@@ -45,3 +50,12 @@ erDiagram
   - `created_at`: company created
   - `updated_at`: company updated
   - `deleted_at`: company deleted
+
+### `user_profile`
+
+**Properties**
+  - `seq`: seq
+  - `nick`: nick
+  - `created_at`: updated at
+  - `updated_at`: updated at
+  - `deleted_at`: deleted at
