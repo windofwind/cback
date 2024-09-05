@@ -7,7 +7,30 @@ export class AuthService {
     this.prisma;
   }
 
-  async login(payload: { userId: string; password: string }) {
-    //
+  async login(payload: { email: string; password: string }) {
+    let result;
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          ...payload,
+        },
+      });
+
+      user;
+
+      // TODO: generate token
+      const accessToken = 'accessToken';
+      const refreshToken = 'refreshToken';
+
+      result = {
+        seq: user?.seq,
+        accessToken,
+        refreshToken,
+      };
+    } catch (e) {
+      console.error(e);
+    }
+
+    return result;
   }
 }
