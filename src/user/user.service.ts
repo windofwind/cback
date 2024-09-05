@@ -6,4 +6,21 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {
     this.prisma;
   }
+
+  async selectUserByUserId(userId: string) {
+    // await this.prisma.user;
+    //
+  }
+
+  async selectUser(userSeq: string) {
+    //
+  }
+
+  async selectUsers(userIds: string[]) {
+    //
+  }
+
+  async selectUserBySeq(seq: string) {
+    //
+  }
 }

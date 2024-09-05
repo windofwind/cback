@@ -8,9 +8,12 @@ import config from '../nestia.config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const document = await NestiaSwaggerComposer.document(app, config.swagger || {});
-  SwaggerModule.setup('api', app, document as any);
+  // Swagger
+  if (process.env.NODE_ENV === 'development') {
+    const document = await NestiaSwaggerComposer.document(app, config.swagger || {});
+    SwaggerModule.setup('api', app, document as any, {});
+  }
 
-  await app.listen(3000);
+  await app.listen(3_000);
 }
 bootstrap().catch(console.error);

@@ -7,7 +7,7 @@
 ```mermaid
 erDiagram
 "user" {
-  String id PK
+  String seq PK
   String email UK
   String password
   String nickname "nullable"
@@ -28,7 +28,7 @@ erDiagram
 ### `user`
 
 **Properties**
-  - `id`: User seq
+  - `seq`: User seq
   - `email`: User email (user id)
   - `password`: User password
   - `nickname`: User nickname

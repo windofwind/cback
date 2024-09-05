@@ -5,7 +5,7 @@ const db = new PrismaClient();
 
 const main = async () => {
   await db.user.upsert({
-    where: { email: userData.id },
+    where: { email: userData.seq },
     update: {
       email: userData.email,
       password: userData.password,

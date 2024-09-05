@@ -2,21 +2,39 @@
   "compilerOptions": {
     "incremental": true,
     "target": "ES2021",
-    "lib": ["ES2021"],
+    "lib": [
+      "ES2021"
+    ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@app": ["src"],
-      "@app/*": ["src/*"],
-      "@common": ["libs/common/src"],
-      "@common/*": ["libs/common/src/*"],
-      "@schema": ["libs/schema/src"],
-      "@schema/*": ["libs/schema/src/*"],
-      "@storage": ["libs/storage/src"],
-      "@storage/*": ["libs/storage/src/*"]
+      "@app": [
+        "src"
+      ],
+      "@app/*": [
+        "src/*"
+      ],
+      "@common": [
+        "libs/common/src"
+      ],
+      "@common/*": [
+        "libs/common/src/*"
+      ],
+      "@schema": [
+        "libs/schema/src"
+      ],
+      "@schema/*": [
+        "libs/schema/src/*"
+      ],
+      "@storage": [
+        "libs/storage/src"
+      ],
+      "@storage/*": [
+        "libs/storage/src/*"
+      ]
     },
     "resolveJsonModule": true,
     "allowJs": true,
@@ -44,8 +62,30 @@
     "plugins": [
       {
         "transform": "@nestia/core/lib/transform",
+        /**
+         * Validate request body.
+         * 
+         *   - "assert": Use typia.assert() function
+         *   - "is": Use typia.is() function
+         *   - "validate": Use typia.validate() function
+         *   - "assertEquals": Use typia.assertEquals() function
+         *   - "equals": Use typia.equals() function
+         *   - "validateEquals": Use typia.validateEquals() function
+         */
         "validate": "assert",
+        /**
+         * Validate JSON typed response body.
+         * 
+         *   - "assert": Use typia.assertStringify() function
+         *   - "is": Use typia.isStringify() function
+         *   - "validate": Use typia.validateStringify() function
+         *   - "stringify": Use typia.stringify() function, but dangerous
+         *   - null: Just use JSON.stringify() function, without boosting
+         */
         "stringify": "assert"
+      },
+      {
+        "transform": "@nestia/sdk/lib/transform"
       },
       {
         "transform": "typia/lib/transform"

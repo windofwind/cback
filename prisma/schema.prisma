@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["multiSchema", "views", "typedSql"]
 }
 
@@ -22,37 +22,37 @@ generator markdown {
 
 model User {
   /// User seq
-  id       String   @id @default(cuid())
+  seq       String    @id @default(cuid())
   /// User email (user id)
-  email     String   @unique @db.VarChar(255)
+  email     String    @unique @db.VarChar(255)
   /// User password
-  password  String   @db.VarChar(255)
+  password  String    @db.VarChar(255)
   /// User nickname
-  nickname  String?  @db.VarChar(255)
+  nickname  String?   @db.VarChar(255)
   /// User created
-  createdAt DateTime @default(now()) @db.Timestamp @map("created_at")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
   /// User updated
-  updatedAt DateTime @updatedAt @db.Timestamp @map("updated_at")
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp
   /// User deleted
-  deletedAt DateTime? @db.Timestamp @map("deleted_at")
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("user")
 }
 
 model Company {
   /// Company seq
-  id String @id @default(cuid()) 
+  id   String @id @default(cuid())
   /// 사업자 번호
-  seq String @unique @db.VarChar(255)
+  seq  String @unique @db.VarChar(255)
   /// 회사명
   name String @db.VarChar(255)
 
   /// company created
-  createdAt DateTime @default(now()) @db.Timestamp @map("created_at")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
   /// company updated
-  updatedAt DateTime @updatedAt @db.Timestamp @map("updated_at")
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp
   /// company deleted
-  deletedAt DateTime? @db.Timestamp @map("deleted_at") 
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("company")
 }

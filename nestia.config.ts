@@ -1,7 +1,7 @@
 import { INestiaConfig } from '@nestia/sdk';
 
 const config: INestiaConfig = {
-  input: ['src/**/*.controller.ts'],
+  input: ['src/**/**.controller.ts'],
   swagger: {
     decompose: true,
     output: 'swagger.json',
@@ -29,6 +29,7 @@ const config: INestiaConfig = {
         description: 'local Server',
       },
     ],
+    beautify: false,
   },
   e2e: 'test/e2e',
   output: 'test/e2e/api',
