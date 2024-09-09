@@ -29,6 +29,14 @@ erDiagram
   DateTime updated_at
   DateTime deleted_at "nullable"
 }
+"user_profile_snapshot" {
+  String id PK
+  String seq
+  String nick
+  DateTime created_at
+  DateTime updated_at
+}
+"user_profile" |o--|| "user" : user
 ```
 
 ### `user`
@@ -59,3 +67,12 @@ erDiagram
   - `created_at`: updated at
   - `updated_at`: updated at
   - `deleted_at`: deleted at
+
+### `user_profile_snapshot`
+
+**Properties**
+  - `id`: 
+  - `seq`: seq
+  - `nick`: nick
+  - `created_at`: updated at
+  - `updated_at`: updated at
