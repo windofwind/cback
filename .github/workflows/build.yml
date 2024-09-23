@@ -26,7 +26,7 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
           version: 8
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
           cache: 'pnpm'
