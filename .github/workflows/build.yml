@@ -28,6 +28,10 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
           POSTGRES_DB: cback
         ports:
           - 5432:5432
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
 
     steps:
       - name: Checkout source code. # 깃허브 레포지토리 체크.
@@ -55,7 +59,10 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
           echo "CACHE_DB=$CACHE_DB" >> .env
 
       - name: postinstall
-        run: pnpm ts-patch install && pnpm husky install && pnpm prisma generate
+        run: pnpm ts-patch install && pnpm husky install
+
+      - name: Prisma Migrate
+        run: pnpm prisma migrate dev && pnpm prisma db seed && pnpm prisma generate
 
       - name: Lint & build
         run: pnpm lint && pnpm build && pnpm test && pnpm nestia swagger
