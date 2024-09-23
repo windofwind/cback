@@ -1,12 +1,12 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["multiSchema", "views"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema", "views", "typedSql"]
+}
+
+generator markdown {
+  provider = "prisma-markdown"
+  output   = "../document/ERD.md"
+  title    = "cback ERD"
 }
 
 datasource db {
@@ -15,11 +15,66 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  password  String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @db.Timestamp
-  updatedAt DateTime @updatedAt @db.Timestamp
-  deletedAt DateTime? @db.Timestamp
+  /// User seq
+  seq          String       @id @default(cuid())
+  /// User email (user id)
+  email        String       @unique @db.VarChar(255)
+  /// User password
+  password     String       @db.VarChar(255)
+  /// User created
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamp(6)
+  /// User updated
+  updatedAt    DateTime     @updatedAt @map("updated_at") @db.Timestamp(6)
+  /// User deleted
+  deletedAt    DateTime?    @map("deleted_at") @db.Timestamp(6)
+  user_profile UserProfile?
+
+  @@map("user")
+}
+
+model Company {
+  /// Company seq
+  id        String    @id @default(cuid())
+  /// 사업자 번호
+  seq       String    @unique @db.VarChar(255)
+  /// 회사명
+  name      String    @db.VarChar(255)
+  /// company created
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  /// company updated
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp(6)
+  /// company deleted
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp(6)
+
+  @@map("company")
+}
+
+model UserProfile {
+  /// seq
+  seq       String    @id
+  /// nick
+  nick      String    @db.VarChar(64)
+  /// updated at
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  /// updated at
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp(6)
+  /// deleted at
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp(6)
+  user      User      @relation(fields: [seq], references: [seq], onDelete: NoAction, onUpdate: NoAction, map: "user_seq_fkey")
+
+  @@map("user_profile")
+}
+
+model UserProfileSnapshot {
+  id        String   @id @default(uuid()) @db.Uuid
+  /// seq
+  seq       String
+  /// nick
+  nick      String   @db.VarChar(64)
+  /// updated at
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  /// updated at
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@map("user_profile_snapshot")
 }

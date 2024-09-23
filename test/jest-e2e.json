@@ -5,5 +5,13 @@
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@common/(.*)": "<rootDir>/../libs/common/src/$1",
+    "@common": "<rootDir>/../libs/common/src",
+    "@schema/(.*)": "<rootDir>/../libs/schema/src/$1",
+    "@schema": "<rootDir>/../libs/schema/src",
+    "@storage/(.*)": "<rootDir>/../libs/storage/src/$1",
+    "@storage": "<rootDir>/../libs/storage/src"
   }
 }
