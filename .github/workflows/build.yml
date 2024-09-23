@@ -18,6 +18,7 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
       CACHE_HOST: ${{ secrets.CACHE_HOST }}
       CACHE_PORT: ${{ secrets.CACHE_PORT }}
       CACHE_DB: ${{ secrets.CACHE_DB }}
+      INTERBANK_RATE_API_URL: ${{ secrets.INTERBANK_RATE_API_URL }}
 
     services:
       postgres:
@@ -57,7 +58,7 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
           echo "CACHE_HOST=$CACHE_HOST" >> .env
           echo "CACHE_PORT=$CACHE_PORT" >> .env
           echo "CACHE_DB=$CACHE_DB" >> .env
-
+          echo "INTERBANK_RATE_API_URL=$INTERBANK_RATE_API_URL" >> .env.api
       - name: postinstall
         run: pnpm ts-patch install && pnpm husky install
 
