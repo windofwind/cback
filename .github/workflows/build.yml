@@ -6,13 +6,26 @@ on: # CICD 이벤트 감지.
 jobs: # CI/CD 세부 동작 (Job) 설정.
   nestjs-build:
     runs-on: ubuntu-latest
+
+    env:
+      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+      DATABASE_DATABASE: ${{ secrets.DATABASE_DATABASE }}
+      DATABASE_SCHEMA: ${{ secrets.DATABASE_SCHEMA }}
+      DATABASE_MAX: ${{ secrets.DATABASE_MAX }}
+      DATABASE_USER: ${{ secrets.DATABASE_USER }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      CACHE_HOST: ${{ secrets.CACHE_HOST }}
+      CACHE_PORT: ${{ secrets.CACHE_PORT }}
+      CACHE_DB: ${{ secrets.CACHE_DB }}
+
     services:
       postgres:
         image: postgres:15-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_DB: cback
         ports:
           - 5432:5432
 
@@ -34,8 +47,18 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
       - name: Install dependencies
         run: pnpm install
 
-      - name: postinstall
-        run: pnpm ts-patch install && pnpm prisma generate && pnpm husky install && pnpm prisma migrate deploy && pnpm prisma db seed
+      - name: Create .env file
+        run: |
+          echo "DATABASE_URL=postgresql://$DATABASE_USER:$DATABASE_PASSWORD@$DATABASE_HOST:$DATABASE_PORT/$DATABASE_DATABASE?schema=$DATABASE_SCHEMA&connection_limit=$DATABASE_MAX&pgbouncer=true" >> .env
+          echo "CACHE_HOST=$CACHE_HOST" >> .env
+          echo "CACHE_PORT=$CACHE_PORT" >> .env
+          echo "CACHE_DB=$CACHE_DB" >> .env
 
-      - name: Lint & build & swagger
+      - name: postinstall
+        run: pnpm ts-patch install && pnpm husky install && pnpm prisma generate
+
+      - name: Lint & build
         run: pnpm lint && pnpm build && pnpm test && pnpm nestia swagger
+
+      - name: test & swagger
+        run: pnpm nestia swagger
