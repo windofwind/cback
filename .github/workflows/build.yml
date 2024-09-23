@@ -1,0 +1,41 @@
+name: Build # Workflow 이름.
+on: # CICD 이벤트 감지.
+  push:
+    branches: ['feature/*', '*/issue*'] # 푸시 이벤트 감지.
+
+jobs: # CI/CD 세부 동작 (Job) 설정.
+  nestjs-build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout source code. # 깃허브 레포지토리 체크.
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: postinstall
+        run: pnpm ts-patch install && pnpm prisma generate && pnpm husky install
+
+      - name: Lint & build & swagger
+        run: pnpm lint && pnpm build && pnpm nestia swagger
