@@ -35,7 +35,7 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
         run: pnpm install
 
       - name: postinstall
-        run: pnpm ts-patch install && pnpm prisma generate && pnpm husky install
+        run: pnpm ts-patch install && pnpm prisma generate && pnpm husky install && pnpm prisma migrate deploy && pnpm prisma db seed
 
       - name: Lint & build & swagger
-        run: pnpm lint && pnpm build && pnpm nestia swagger
+        run: pnpm lint && pnpm build && pnpm test && pnpm nestia swagger
