@@ -1,0 +1,73 @@
+name: Build # Workflow 이름.
+on: # CICD 이벤트 감지.
+  push:
+    branches: ['feature/*', '*/issue*'] # 푸시 이벤트 감지.
+
+jobs: # CI/CD 세부 동작 (Job) 설정.
+  nestjs-build:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+      DATABASE_DATABASE: ${{ secrets.DATABASE_DATABASE }}
+      DATABASE_SCHEMA: ${{ secrets.DATABASE_SCHEMA }}
+      DATABASE_MAX: ${{ secrets.DATABASE_MAX }}
+      DATABASE_USER: ${{ secrets.DATABASE_USER }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      CACHE_HOST: ${{ secrets.CACHE_HOST }}
+      CACHE_PORT: ${{ secrets.CACHE_PORT }}
+      CACHE_DB: ${{ secrets.CACHE_DB }}
+      INTERBANK_RATE_API_URL: ${{ secrets.INTERBANK_RATE_API_URL }}
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cback
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout source code. # 깃허브 레포지토리 체크.
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Create .env file
+        run: |
+          echo "DATABASE_URL=postgresql://$DATABASE_USER:$DATABASE_PASSWORD@$DATABASE_HOST:$DATABASE_PORT/$DATABASE_DATABASE?schema=$DATABASE_SCHEMA&connection_limit=$DATABASE_MAX&pgbouncer=true" >> .env
+          echo "CACHE_HOST=$CACHE_HOST" >> .env
+          echo "CACHE_PORT=$CACHE_PORT" >> .env
+          echo "CACHE_DB=$CACHE_DB" >> .env
+          echo "INTERBANK_RATE_API_URL=$INTERBANK_RATE_API_URL" >> .env.api
+
+      - name: postinstall
+        run: pnpm ts-patch install && pnpm husky install
+
+      - name: Prisma Migrate
+        run: pnpm prisma generate && pnpm prisma migrate dev && pnpm prisma db seed
+
+      - name: Lint & build
+        run: pnpm lint && pnpm build && pnpm test && pnpm nestia swagger
+
+      - name: test & swagger
+        run: pnpm nestia swagger
