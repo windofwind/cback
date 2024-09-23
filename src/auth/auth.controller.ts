@@ -1,28 +1,53 @@
 import { Controller, Delete, Get, Head, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { TypedBody, TypedHeaders, TypedParam } from '@nestia/core';
+import { TypedBody, TypedHeaders, TypedParam, TypedQuery } from '@nestia/core';
 import { Login } from '../../libs/schema/src/auth/login.dto';
+import { UserProfileService } from '@app/user/user-profile.service';
+import typia from 'typia';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userProfileService: UserProfileService,
+  ) {
     this.authService;
+    this.userProfileService;
   }
 
-  @Post('/login')
-  async login(@TypedHeaders() headers: { 'x-custom-header'?: string }, @TypedBody() payload: Login.Request) {
+  @Get('/signup')
+  async index(@TypedHeaders() headers: { 'x-custom-header'?: string }, @TypedQuery() query: { q: string }) {
+    return 'sighup';
+  }
+
+  @Post('/signin')
+  async login(
+    @TypedHeaders() headers: { 'x-custom-header'?: string },
+    @TypedBody() payload: Login.Request,
+  ): Promise<{ data: Record<string, any> }> {
     let result;
 
     try {
       // TODO: 로그인 로직 구현
-      const data = await this.authService.login(payload);
-      data;
-      // TODO: 프로필 가져오기
+      // const data = await this.authService.login(payload);
 
+      // TODO: 프로필 가져오기
+      // const profile = {};
       result = 'login';
+
+      result = typia.misc.assertClone<{ data: any }>({
+        data: {
+          auth: {
+            accessToken: '',
+            refreshToken: '',
+          },
+          profile: {},
+        },
+      });
     } catch (e: any) {
       e.message;
       console.info(e);
+      throw e;
     }
     return result;
   }
