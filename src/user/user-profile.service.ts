@@ -8,7 +8,14 @@ export class UserProfileService {
   }
 
   async getProfile(id: string) {
-    return {};
+    const user = await this.prisma.user.findUnique({
+      where: {
+        seq: id,
+        deletedAt: null,
+      },
+    });
+
+    return user;
   }
 
   async updateProfile(id: string) {

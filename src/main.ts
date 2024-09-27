@@ -1,33 +1,34 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { SwaggerModule } from '@nestjs/swagger';
 import { NestiaSwaggerComposer } from '@nestia/sdk';
+import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 
-import config from '../nestia.config';
-import helmet from 'helmet';
 import compression from 'compression';
+import helmet from 'helmet';
+import config from '../nestia.config';
+import { TransformInterceptor } from './1-common/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  /** web server setting */
   app.enableCors({
     credentials: true,
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     optionsSuccessStatus: 200,
   });
+  app.useBodyParser('json', { limit: '50mb' });
+  app.useGlobalInterceptors(app.get(TransformInterceptor));
+  // app.useGlobalFilters(app.get(BadRequestExceptionFilter));
 
-  app.use(
-    helmet({
-      hidePoweredBy: false,
-    }),
-  );
-
+  app.use(helmet());
   app.use(compression());
+  app.set('trust proxy', 1);
   app.disable('x-powered-by');
 
-  // Swagger
+  /** swagger */
   if (process.env.NODE_ENV === 'development') {
     const document = await NestiaSwaggerComposer.document(app, {
       ...config.swagger,
@@ -36,7 +37,7 @@ async function bootstrap() {
       swaggerOptions: {
         showRequestDuration: true,
         // defaultModelsExpandDepth: 10,
-        // defaultModelExpandDepth: 10,
+        defaultModelExpandDepth: 10,
         filter: true,
         displayRequestDuration: true,
         docExpansion: 'list',

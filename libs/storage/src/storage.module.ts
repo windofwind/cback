@@ -6,7 +6,7 @@ import { PrismaService } from './prisma/prisma.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env', '.env.api'],
+      envFilePath: ['.env', '.env.api', '.env.jwt'],
       ignoreEnvFile: process.env.NODE_ENV === 'production',
     }),
   ],

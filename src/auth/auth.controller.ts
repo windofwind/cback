@@ -1,9 +1,10 @@
-import { Controller, Delete, Get, Head, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { TypedBody, TypedHeaders, TypedParam, TypedQuery } from '@nestia/core';
-import { Login } from '../../libs/schema/src/auth/login.dto';
+import { RequestHeaders } from '@app/1-common/header.dto';
 import { UserProfileService } from '@app/user/user-profile.service';
+import { TypedBody, TypedHeaders, TypedParam } from '@nestia/core';
+import { Controller, Delete, Get, Head, Headers, Post } from '@nestjs/common';
 import typia from 'typia';
+import { AuthService } from './auth.service';
+import { DtoSignin } from './dto/signin.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -16,26 +17,26 @@ export class AuthController {
   }
 
   @Get('/signup')
-  async index(@TypedHeaders() headers: { 'x-custom-header'?: string }, @TypedQuery() query: { q: string }) {
+  async index(@Headers() headers: RequestHeaders) {
     return 'sighup';
   }
 
   @Post('/signin')
   async login(
-    @TypedHeaders() headers: { 'x-custom-header'?: string },
-    @TypedBody() payload: Login.Request,
-  ): Promise<{ data: Record<string, any> }> {
+    @Headers() headers: RequestHeaders,
+    @TypedBody() payload: DtoSignin.Request.PostSignin,
+  ): Promise<DtoSignin.Response.PostSignin> {
     let result;
 
     try {
-      // TODO: 로그인 로직 구현
-      // const data = await this.authService.login(payload);
+      //** TODO: 로그인 로직 구현 */
+      // const userInfo = await this.authService.login(payload);
 
       // TODO: 프로필 가져오기
       // const profile = {};
       result = 'login';
 
-      result = typia.misc.assertClone<{ data: any }>({
+      result = typia.misc.assertClone<DtoSignin.Response.PostSignin>({
         data: {
           auth: {
             accessToken: '',
@@ -59,7 +60,7 @@ export class AuthController {
    * @memberof AuthController
    */
   @Get('/token')
-  async getTokens(@TypedHeaders() headers: { 'x-custom-header'?: string }) {
+  async getTokens(@Headers() headers: RequestHeaders) {
     //
   }
 
@@ -70,7 +71,7 @@ export class AuthController {
    * @memberof AuthController
    */
   @Delete('/token/:token')
-  async tokens(@TypedHeaders() headers: { 'x-custom-header'?: string }, @TypedParam('token') token: string) {
+  async tokens(@Headers() headers: RequestHeaders, @TypedParam('token') token: string) {
     //
   }
 
