@@ -31,7 +31,7 @@ export class InterbankRateService implements OnModuleInit {
     await this.cron();
   }
 
-  @Cron('5 0 * * *', { timeZone: 'Asia/Seoul', name: 'cronInterbankRate', disabled: false })
+  @Cron('5 0 * * *', { timeZone: 'Asia/Seoul', name: 'cronInterbankRate', disabled: true })
   async cron(): Promise<InterbankRateType | undefined> {
     try {
       const response = await this.caller({
@@ -41,6 +41,7 @@ export class InterbankRateService implements OnModuleInit {
       this.data = typia.misc.assertClone(response.data);
     } catch (ignoreError) {
       console.error(ignoreError);
+      throw ignoreError;
     }
 
     return this.data;
