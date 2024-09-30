@@ -22,9 +22,10 @@ export interface RequestHeaders {
 
   /**
    * 디코드된 유저 정보
+   * @hidden
    *
-   * @type {Define.decodedUserToken}
+   * @type {Define.decodedUserToken | any}
    * @memberof RequestHeaders
    */
-  decodedUserToken?: Define.decodedUserToken;
+  decodedUserToken?: Define.decodedUserToken | any;
 }

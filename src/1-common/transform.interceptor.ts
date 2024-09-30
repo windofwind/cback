@@ -53,7 +53,7 @@ export class TransformInterceptor<T> implements NestInterceptor<T, Promise<Respo
         jti: 'A',
       });
     } else {
-      result = this.secure.verify<Define.decodedUserToken>(token);
+      result = this.secure.verify(token);
     }
 
     return result;

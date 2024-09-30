@@ -16,10 +16,10 @@ export class UserController {
     this.userProfileService;
   }
   
-  
   /**
    * 사용자 정보를 가져옵니다.
    * 
+   * @summary 사용자 정보를 가져옵니다. - en
    * @tag /user
    * @security apiKey
    *
@@ -32,7 +32,8 @@ export class UserController {
     let result;
 
     try {
-      result = typia.misc.assertClone<DtoProfile.Response.GetProfile>(await this.userProfileService.getProfile(headers.decodedUserToken?.email || ""));
+      const data = await this.userProfileService.getProfile(headers.decodedUserToken?.email || "");
+      result = typia.misc.assertClone<DtoProfile.Response.GetProfile>(data);
     } catch (error: any) {
       throw new Error(error);
     }
