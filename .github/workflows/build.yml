@@ -24,9 +24,9 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
       postgres:
         image: postgres:15-alpine
         env:
-          POSTGRES_USER: $DATABASE_USER
-          POSTGRES_PASSWORD: $DATABASE_PASSWORD
-          POSTGRES_DB: $DATABASE_DATABASE
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cback
         ports:
           - 5432:5432
       redis:
@@ -65,6 +65,7 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
 
       - name: Prisma Migrate
         run: pnpm prisma db push --accept-data-loss --force-reset && pnpm prisma generate && pnpm prisma db seed
+        # run: pnpm prisma generate && pnpm prisma migrate dev && pnpm prisma generate && pnpm prisma db seed
 
       - name: Lint & build
         run: pnpm lint && pnpm build && pnpm test && pnpm nestia swagger
