@@ -25,6 +25,7 @@ erDiagram
 "user_profile" {
   String seq PK
   String nick
+  String job_title
   DateTime created_at
   DateTime updated_at
   DateTime deleted_at "nullable"
@@ -64,6 +65,7 @@ erDiagram
 **Properties**
   - `seq`: seq
   - `nick`: nick
+  - `job_title`: job title
   - `created_at`: updated at
   - `updated_at`: updated at
   - `deleted_at`: deleted at
