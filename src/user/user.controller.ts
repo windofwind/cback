@@ -1,10 +1,10 @@
-import { Controller, Get, Patch, Post, UseGuards, Headers } from '@nestjs/common';
-import { UserService } from './user.service';
+import { RequestHeaders } from '@app/1-common/header.dto';
 import { TypedBody } from '@nestia/core';
-import { UserProfileService } from './user-profile.service';
+import { Controller, Get, Headers, Patch, Post } from '@nestjs/common';
 import typia from 'typia';
 import { DtoProfile } from './dto/profile.dto';
-import { RequestHeaders } from '@app/1-common/header.dto';
+import { UserProfileService } from './user-profile.service';
+import { UserService } from './user.service';
 
 @Controller('/user')
 export class UserController {
@@ -13,21 +13,22 @@ export class UserController {
     private readonly userProfileService: UserProfileService,
   ) {
     this.userService;
+    this.userProfileService;
   }
-
+  
+  
   /**
    * 사용자 정보를 가져옵니다.
-   *
+   * 
    * @tag /user
    * @security apiKey
    *
    * @param {RequestHeaders} headers
-   * @return {*} 
+   * @return {Promise<DtoProfile.Response.GetProfile>}
    * @memberof UserController
    */
-  @UseGuards()
   @Get('/')
-  async getUser(@Headers() headers: RequestHeaders) {
+  async getUser(@Headers() headers: RequestHeaders): Promise<DtoProfile.Response.GetProfile>  {
     let result;
 
     try {
@@ -41,8 +42,12 @@ export class UserController {
 
   /**
    * 사용자 정보를 업데이트 합니다.
+   * 
+   * @tag /user
+   * @security apiKey
    *
-   * @return {*}
+   * @param {DtoProfile.Request.PostProfile} body
+   * @return {*} 
    * @memberof UserController
    */
   @Patch('/')
@@ -50,6 +55,14 @@ export class UserController {
     return 'update profile';
   }
 
+  /**
+   * 사용자의 썸네일을 업데이트 합니다.
+   * @tag /user
+   * @security apiKey
+   *
+   * @return {*} 
+   * @memberof UserController
+   */
   @Post('/thumbnail')
   async updateThumbnail() {
     return 'update thumbnail';
