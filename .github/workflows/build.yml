@@ -64,7 +64,7 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
         run: pnpm ts-patch install && pnpm husky install
 
       - name: Prisma Migrate
-        run: pnpm prisma db push --accept-data-loss --force-reset && pnpm prisma generate && pnpm prisma db seed
+        run: pnpm prisma generate && pnpm prisma db push --accept-data-loss --force-reset  && pnpm prisma db seed
         # run: pnpm prisma generate && pnpm prisma migrate dev && pnpm prisma generate && pnpm prisma db seed
 
       - name: Lint & build
