@@ -10,15 +10,16 @@ import config from '../nestia.config';
 import { TransformInterceptor } from './1-common/transform.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors:{
+      credentials: true,
+      origin: true,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      optionsSuccessStatus: 200,
+    }
+  });
 
   /** web server setting */
-  app.enableCors({
-    credentials: true,
-    origin: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    optionsSuccessStatus: 200,
-  });
   app.useBodyParser('json', { limit: '50mb' });
   app.useGlobalInterceptors(app.get(TransformInterceptor));
   // app.useGlobalFilters(app.get(BadRequestExceptionFilter));

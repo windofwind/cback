@@ -18,9 +18,11 @@ export class UserController {
   /**
    * 사용자 정보를 가져옵니다.
    *
-   * @secure true
+   * @tag /user
+   * @security apiKey
    *
-   * @return {*}
+   * @param {RequestHeaders} headers
+   * @return {*} 
    * @memberof UserController
    */
   @UseGuards()
@@ -29,7 +31,7 @@ export class UserController {
     let result;
 
     try {
-      result = typia.misc.assertClone<DtoProfile.Response.GetProfile>(await this.userProfileService.getProfile(''));
+      result = typia.misc.assertClone<DtoProfile.Response.GetProfile>(await this.userProfileService.getProfile(headers.decodedUserToken?.email || ""));
     } catch (error: any) {
       throw new Error(error);
     }

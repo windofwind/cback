@@ -14,6 +14,6 @@ import { SecureService } from './secure/secure.service';
     ScheduleModule.forRoot(),
   ],
   providers: [InterbankRateService, SecureService],
-  exports: [InterbankRateService],
+  exports: [InterbankRateService, SecureService],
 })
 export class CommonModule {}

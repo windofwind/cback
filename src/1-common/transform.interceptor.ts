@@ -4,16 +4,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import typia from 'typia';
 import { Define } from './base.type';
+import { SecureService } from '@common/secure/secure.service';
 
 export interface Response<T> {
   data: T;
 }
-
-export const guestToken: Define.decodedUserToken = {
-  seq: '01HHRYQ90ZJ3Q7WBHPXRK56H3F',
-  email: 'guest@localhost.com',
-  role: 'GUEST',
-};
 
 /**
  * default interceptor
@@ -25,7 +20,7 @@ export const guestToken: Define.decodedUserToken = {
  */
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<T, Promise<Response<T>>> {
-  constructor(private readonly config: ConfigService) {}
+  constructor(private readonly config: ConfigService, private readonly secure: SecureService) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<Promise<Response<T>>> {
     const request = context.switchToHttp().getRequest();
@@ -50,12 +45,15 @@ export class TransformInterceptor<T> implements NestInterceptor<T, Promise<Respo
    */
   getUserInfoFromHeader(token?: string) {
     let result;
+
     if (!token) {
       result = typia.misc.assertClone<Define.decodedUserToken>({
-        ...guestToken,
+        ...Define.Token.guest,
         uss: this.config.get<string>('JWT_ISSUER'),
         jti: 'A',
       });
+    } else {
+      result = this.secure.verify<Define.decodedUserToken>(token);
     }
 
     return result;

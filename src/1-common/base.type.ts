@@ -7,8 +7,20 @@ export namespace Define {
     typia.tags.MaxLength<50>;
 
   export type Email = string & typia.tags.Format<'email'> & typia.tags.MinLength<8> & typia.tags.MaxLength<64>;
-  export type UserRoles = 'GUEST' | 'USER' | 'ADMIN' | 'MANAGER' | 'SUPER';
 
+  /** 권한 : 손님, 사용자, 관리자, 어드민, 시스템  */
+  export type UserRoles = 'GUEST' | 'USER' | 'ADMIN' | 'SUPER' | 'SYSTEM'; 
+
+  export namespace Token {
+    export const guest: Define.decodedUserToken = {
+      seq: 'ckv1q9z1e000001l5f7y8b9c0',
+      email: 'guest@localhost.com',
+      role: 'GUEST',
+    };
+  } 
+
+  
+  
   export interface TokenOption {
     /**
      * 토큰 발급자

@@ -1,3 +1,5 @@
+import { Define } from "./base.type";
+
 export interface RequestHeaders {
   /**
    * JWT 토큰
@@ -21,9 +23,8 @@ export interface RequestHeaders {
   /**
    * 디코드된 유저 정보
    *
-   * @type {any}
-   * @memberof Headers
-   * @hidden
+   * @type {Define.decodedUserToken}
+   * @memberof RequestHeaders
    */
-  decodedUserToken?: any;
+  decodedUserToken?: Define.decodedUserToken;
 }
