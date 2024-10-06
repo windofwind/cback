@@ -3,7 +3,7 @@ import { Response } from 'express';
 
 import dayjs from 'dayjs';
 import typia from 'typia';
-import { CustomError } from './Error.type';
+import { CustomError } from './error.type';
 
 /**
  * controller arguments validation 에 의한 에러가 여기로 온다.

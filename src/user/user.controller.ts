@@ -5,7 +5,7 @@ import typia from 'typia';
 import { DtoProfile } from './dto/profile.dto';
 import { UserProfileService } from './user-profile.service';
 import { UserService } from './user.service';
-import { CustomError } from '@app/1-common/Error.type';
+import { CustomError } from '@app/1-common/error.type';
 
 @Controller('/user')
 export class UserController {
@@ -28,7 +28,8 @@ export class UserController {
    * @return {(Promise<DtoProfile.Response.GetProfile>)}
    * @memberof UserController
    */
-  @TypedException<CustomError.BadRequestException>({ status: 404 })
+  @TypedException<CustomError.Base>({ status: 100 })
+  @TypedException<CustomError.ForbiddenException>({ status: 404 })
   @Get('/')
   async getUser(@Headers() headers: RequestHeaders): Promise<DtoProfile.Response.GetProfile> {
     let result;

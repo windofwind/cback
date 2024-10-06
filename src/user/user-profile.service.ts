@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '@storage';
 
 @Injectable()
@@ -7,15 +7,28 @@ export class UserProfileService {
     this.prisma;
   }
 
-  async getProfile(id: string) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        seq: id,
-        deletedAt: null,
-      },
-    });
+  async getProfile(email: string) {
+    let result;
 
-    return user;
+    try {
+      result = await this.prisma.user.findFirst({
+        where: {
+          email,
+          deletedAt: null,
+        },
+      });
+
+      if (result === null) {
+        // TODO: USER NOT FOUNDED.
+        throw new ForbiddenException();
+      }
+
+      console.info(result);
+    } catch (err) {
+      throw new Error();
+    }
+
+    return result;
   }
 
   async updateProfile(id: string) {
