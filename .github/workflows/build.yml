@@ -41,7 +41,8 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 9
+          run_install: false
 
       - name: Install Node.js
         uses: actions/setup-node@v4
