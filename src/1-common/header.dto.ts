@@ -1,4 +1,3 @@
-import typia from 'typia';
 import { Define } from './base.type';
 
 export interface RequestHeaders {
