@@ -60,9 +60,6 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
           echo "CACHE_DB=$CACHE_DB" >> .env
           echo "INTERBANK_RATE_API_URL=$INTERBANK_RATE_API_URL" >> .env.api
 
-      - name: postinstall
-        run: pnpm ts-patch install && pnpm husky install
-
       - name: Prisma Migrate
         run: |
           pnpm prisma migrate deploy
@@ -71,7 +68,11 @@ jobs: # CI/CD 세부 동작 (Job) 설정.
         # run: pnpm prisma generate && pnpm prisma migrate dev && pnpm prisma generate && pnpm prisma db seed
 
       - name: Lint & build
-        run: pnpm lint && pnpm build && pnpm test && pnpm nestia swagger
+        run: |
+          pnpm lint 
+          pnpm build 
+          pnpm test 
+          pnpm nestia swagger
 
       - name: test & swagger
         run: pnpm nestia swagger
