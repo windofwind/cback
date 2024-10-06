@@ -8,21 +8,22 @@ import compression from 'compression';
 import helmet from 'helmet';
 import config from '../nestia.config';
 import { TransformInterceptor } from './1-common/transform.interceptor';
+import { BadRequestExceptionFilter } from './1-common/badRequest-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors:{
+    cors: {
       credentials: true,
       origin: true,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       optionsSuccessStatus: 200,
-    }
+    },
   });
 
   /** web server setting */
   app.useBodyParser('json', { limit: '50mb' });
   app.useGlobalInterceptors(app.get(TransformInterceptor));
-  // app.useGlobalFilters(app.get(BadRequestExceptionFilter));
+  app.useGlobalFilters(app.get(BadRequestExceptionFilter));
 
   app.use(helmet());
   app.use(compression());

@@ -1,10 +1,11 @@
 import { RequestHeaders } from '@app/1-common/header.dto';
-import { TypedBody } from '@nestia/core';
+import { TypedBody, TypedException } from '@nestia/core';
 import { Controller, Get, Headers, Patch, Post } from '@nestjs/common';
 import typia from 'typia';
 import { DtoProfile } from './dto/profile.dto';
 import { UserProfileService } from './user-profile.service';
 import { UserService } from './user.service';
+import { CustomError } from '@app/1-common/Error.type';
 
 @Controller('/user')
 export class UserController {
@@ -15,24 +16,25 @@ export class UserController {
     this.userService;
     this.userProfileService;
   }
-  
+
   /**
    * 사용자 정보를 가져옵니다.
-   * 
+   *
    * @summary 사용자 정보를 가져옵니다. - en
    * @tag /user
    * @security apiKey
    *
    * @param {RequestHeaders} headers
-   * @return {Promise<DtoProfile.Response.GetProfile>}
+   * @return {(Promise<DtoProfile.Response.GetProfile>)}
    * @memberof UserController
    */
+  @TypedException<CustomError.BadRequestException>({ status: 404 })
   @Get('/')
-  async getUser(@Headers() headers: RequestHeaders): Promise<DtoProfile.Response.GetProfile>  {
+  async getUser(@Headers() headers: RequestHeaders): Promise<DtoProfile.Response.GetProfile> {
     let result;
 
     try {
-      const data = await this.userProfileService.getProfile(headers.decodedUserToken?.email || "");
+      const data = await this.userProfileService.getProfile(headers.decodedUserToken?.email || '');
       result = typia.misc.assertClone<DtoProfile.Response.GetProfile>(data);
     } catch (error: any) {
       throw new Error(error);
@@ -43,12 +45,12 @@ export class UserController {
 
   /**
    * 사용자 정보를 업데이트 합니다.
-   * 
+   *
    * @tag /user
    * @security apiKey
    *
    * @param {DtoProfile.Request.PostProfile} body
-   * @return {*} 
+   * @return {*}
    * @memberof UserController
    */
   @Patch('/')
@@ -61,7 +63,7 @@ export class UserController {
    * @tag /user
    * @security apiKey
    *
-   * @return {*} 
+   * @return {*}
    * @memberof UserController
    */
   @Post('/thumbnail')

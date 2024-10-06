@@ -4,6 +4,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { TransformInterceptor } from './1-common/transform.interceptor';
+import { BadRequestExceptionFilter } from './1-common/badRequest-exception.filter';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TransformInterceptor } from './1-common/transform.interceptor';
   providers: [
     /** global 모듈 */
     TransformInterceptor,
+    BadRequestExceptionFilter,
   ],
 })
 export class AppModule {}
