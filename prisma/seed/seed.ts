@@ -15,7 +15,9 @@ const main = async () => {
         create: user,
       });
     });
+  });
 
+  await db.$transaction(async (tx) => {
     userProfiles.forEach(async (profile) => {
       await db.userProfile.upsert({
         where: { seq: profile.seq },
