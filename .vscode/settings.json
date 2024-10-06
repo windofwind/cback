@@ -1,8 +1,4 @@
 {
-    "cSpell.words": [
-        "nestia",
-        "nestjs",
-        "typia",
-        "unplugin"
-    ]
+  "cSpell.words": ["nestia", "nestjs", "typia", "unplugin"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

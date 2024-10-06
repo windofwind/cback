@@ -5,7 +5,6 @@ import jwt, { Algorithm, JsonWebTokenError, SignOptions, TokenExpiredError } fro
 
 import { Define } from '@app/1-common/base.type';
 
-
 @Injectable()
 export class SecureService {
   constructor(private readonly config: ConfigService) {}

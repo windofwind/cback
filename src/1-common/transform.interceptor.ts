@@ -20,7 +20,10 @@ export interface Response<T> {
  */
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<T, Promise<Response<T>>> {
-  constructor(private readonly config: ConfigService, private readonly secure: SecureService) {}
+  constructor(
+    private readonly config: ConfigService,
+    private readonly secure: SecureService,
+  ) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<Promise<Response<T>>> {
     const request = context.switchToHttp().getRequest();

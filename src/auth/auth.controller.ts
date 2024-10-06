@@ -18,7 +18,7 @@ export class AuthController {
 
   /**
    * 회원가입
-   * 
+   *
    * @tag /auth
    *
    * @param {RequestHeaders} headers
@@ -31,8 +31,8 @@ export class AuthController {
   }
 
   /**
-   * 회원 로그인 
-   * 
+   * 회원 로그인
+   *
    * @tag /auth
    *
    * @param {RequestHeaders} headers
@@ -72,10 +72,9 @@ export class AuthController {
     return result;
   }
 
-
   /**
    * 로그인 처리된 기기를 가져옵니다. - 발행된 토큰 목록을 가져옵니다.
-   * 
+   *
    * @tag /auth
    * @security apiKey
    *
@@ -85,12 +84,12 @@ export class AuthController {
    */
   @Get('/token')
   async getTokens(@Headers() headers: RequestHeaders): Promise<string> {
-    return "getTokens";
+    return 'getTokens';
   }
 
   /**
    * 로그인된 기기를 삭제합니다. - 토큰을 삭제합니다.
-   * 
+   *
    * @tag /auth
    * @security apiKey
    *
@@ -101,15 +100,15 @@ export class AuthController {
    */
   @Delete('/token/:token')
   async deleteTokens(@Headers() headers: RequestHeaders, @TypedParam('token') token: string): Promise<string> {
-    return "deleteTokens"
+    return 'deleteTokens';
   }
 
   /**
    * 로그아웃을 합니다. - 토큰을 삭제합니다.
-   * 
+   *
    * @tag /auth
    * @security apiKey
-   * 
+   *
    * @param {RequestHeaders} headers
    * @return {Promise<string>}
    * @memberof AuthController
@@ -120,13 +119,12 @@ export class AuthController {
     //   throw new Error();
     // }
 
-    return "logout";
+    return 'logout';
   }
 
-  
   /**
-   * 탈퇴 
-   * 
+   * 탈퇴
+   *
    * @tag /auth
    * @security apiKey
    *
