@@ -1,5 +1,4 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import typia from 'typia';
 
 export namespace CustomError {
   export interface ResposeError {
